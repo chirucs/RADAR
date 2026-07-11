@@ -1,7 +1,7 @@
 # RADAR : Radiology Appropriateness Decision & Advisory Resource
 
 LLM + RAG consult-support tool for radiologists, grounded in the ACR Appropriateness Criteria.
-Implements the system described in *"A Large Language Model–Based Consult Support Tool for Radiologists Using ACR Appropriateness Criteria"* (Avakian & Chakravarty).
+Implements the system described in *"A Large Language Model–Based Consult Support Tool for Radiologists Using ACR Appropriateness Criteria"*.
 
 ## What it does
 
