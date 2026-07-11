@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+data/processed/*.pkl
+.venv/
+venv/
+*.egg-info/
+.idea/
+.vscode/
+
+# Office temp/lock files
+~$*

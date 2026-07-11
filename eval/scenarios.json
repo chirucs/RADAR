@@ -1,0 +1,91 @@
+{
+  "_description": "Evaluation scenarios with ground-truth labels. Each entry maps a free-text consult question to the expected ACR topic + variant the system should retrieve, and a list of procedures that should appear in the recommendations with their expected appropriateness scores.",
+  "scenarios": [
+    {
+      "id": "eval-001",
+      "scenario": "42-year-old woman with sudden severe headache, peak intensity within seconds, described as worst headache of her life. No prior trauma. What is the appropriate initial imaging?",
+      "expected_topic": "acr-headache",
+      "expected_variant": "acr-headache-v1",
+      "expected_top_procedure": "CT head without IV contrast",
+      "expected_appropriateness": {
+        "CT head without IV contrast": 9,
+        "CTA head and neck with IV contrast": 8
+      }
+    },
+    {
+      "id": "eval-002",
+      "scenario": "34-year-old man with three days of mild low back pain after lifting groceries. No fever, no neurologic symptoms, no weight loss, no cancer history.",
+      "expected_topic": "acr-low-back-pain",
+      "expected_variant": "acr-lbp-v1",
+      "expected_top_procedure": "No imaging",
+      "expected_appropriateness": {
+        "No imaging": 9,
+        "Radiography lumbar spine": 2
+      }
+    },
+    {
+      "id": "eval-003",
+      "scenario": "67-year-old man with low back pain and a history of prostate cancer; new onset of bowel incontinence and saddle anesthesia.",
+      "expected_topic": "acr-low-back-pain",
+      "expected_variant": "acr-lbp-v2",
+      "expected_top_procedure": "MRI lumbar spine without and with IV contrast",
+      "expected_appropriateness": {
+        "MRI lumbar spine without and with IV contrast": 9
+      }
+    },
+    {
+      "id": "eval-004",
+      "scenario": "55-year-old man, acute chest pain in ED. Two negative troponins, ECG non-diagnostic. Considered low-to-intermediate probability ACS. What rule-out imaging?",
+      "expected_topic": "acr-acute-chest-pain",
+      "expected_variant": "acr-acs-v1",
+      "expected_top_procedure": "CTA coronary arteries with IV contrast",
+      "expected_appropriateness": {
+        "CTA coronary arteries with IV contrast": 8,
+        "Stress echocardiography": 7
+      }
+    },
+    {
+      "id": "eval-005",
+      "scenario": "28-year-old pregnant woman, second trimester, with right lower quadrant pain, fever, leukocytosis. Suspected appendicitis.",
+      "expected_topic": "acr-rlq-pain",
+      "expected_variant": "acr-rlq-v2",
+      "expected_top_procedure": "US abdomen RLQ",
+      "expected_appropriateness": {
+        "US abdomen RLQ": 9,
+        "MRI abdomen and pelvis without IV contrast": 8
+      }
+    },
+    {
+      "id": "eval-006",
+      "scenario": "8-year-old boy, RLQ pain, fever, vomiting. Suspected appendicitis.",
+      "expected_topic": "acr-rlq-pain",
+      "expected_variant": "acr-rlq-v3",
+      "expected_top_procedure": "US abdomen RLQ",
+      "expected_appropriateness": {
+        "US abdomen RLQ": 9
+      }
+    },
+    {
+      "id": "eval-007",
+      "scenario": "45-year-old woman, dyspnea and pleuritic chest pain. Wells score intermediate. Normal renal function. Suspected pulmonary embolism.",
+      "expected_topic": "acr-suspected-pe",
+      "expected_variant": "acr-pe-v1",
+      "expected_top_procedure": "CTA chest with IV contrast (PE protocol)",
+      "expected_appropriateness": {
+        "CTA chest with IV contrast (PE protocol)": 9,
+        "V/Q scan lung": 7
+      }
+    },
+    {
+      "id": "eval-008",
+      "scenario": "30-year-old pregnant woman in third trimester, dyspnea and tachycardia, suspected PE.",
+      "expected_topic": "acr-suspected-pe",
+      "expected_variant": "acr-pe-v2",
+      "expected_top_procedure": "US bilateral lower extremity venous",
+      "expected_appropriateness": {
+        "US bilateral lower extremity venous": 8,
+        "CTA chest with IV contrast (PE protocol)": 7
+      }
+    }
+  ]
+}

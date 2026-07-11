@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RADAR — ACR Consult Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #eef2f7;
+    --bg-grad-1: #f4f7fb;
+    --bg-grad-2: #e6ecf4;
+    --surface: #ffffff;
+    --surface-2: #f7f9fc;
+    --surface-3: #eef2f8;
+    --ink: #0f1f33;
+    --ink-soft: #33425a;
+    --muted: #6b7a90;
+    --muted-2: #93a0b3;
+    --line: #e0e7f0;
+    --line-strong: #cdd8e6;
+    --brand: #0e7c86;
+    --brand-deep: #0a5560;
+    --brand-tint: #e3f4f5;
+    --accent: #2563eb;
+    --good: #15915b;
+    --good-bg: #e7f6ee;
+    --good-line: #b9e4cd;
+    --warn: #b9791a;
+    --warn-bg: #fdf3e2;
+    --warn-line: #f1d9a8;
+    --bad: #d23b3b;
+    --bad-bg: #fdeaea;
+    --bad-line: #f3c4c4;
+    --shadow-sm: 0 1px 2px rgba(16,31,51,.06), 0 1px 3px rgba(16,31,51,.05);
+    --shadow-md: 0 4px 14px rgba(16,31,51,.08), 0 2px 6px rgba(16,31,51,.05);
+    --shadow-lg: 0 18px 50px rgba(16,31,51,.12);
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(14,124,134,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 0%, rgba(37,99,235,.07), transparent 55%),
+      linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
+    background-attachment: fixed;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(160%) blur(10px);
+    background: rgba(255,255,255,.82);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1120px; margin: 0 auto; padding: .85rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: .8rem; min-width: 0; }
+  .logo {
+    width: 42px; height: 42px; border-radius: 12px; flex: none;
+    display: grid; place-items: center; color: #fff;
+    background: linear-gradient(145deg, var(--brand), var(--brand-deep));
+    box-shadow: 0 6px 16px rgba(14,124,134,.35), inset 0 1px 0 rgba(255,255,255,.25);
+  }
+  .logo svg { width: 23px; height: 23px; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { margin: 0; font-size: 1.02rem; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+  .brand-text p { margin: 1px 0 0; font-size: .76rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .76rem; font-weight: 500; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--line-strong);
+    padding: .42rem .7rem; border-radius: 999px; box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted-2); flex: none; box-shadow: 0 0 0 3px rgba(0,0,0,.04); }
+  .dot.live { background: var(--good); box-shadow: 0 0 0 3px rgba(21,145,91,.16); animation: pulse 2.4s infinite; }
+  .dot.stub { background: var(--warn); box-shadow: 0 0 0 3px rgba(185,121,26,.16); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+  /* ---------- Layout ---------- */
+  main { max-width: 1120px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .hero { text-align: center; margin: .5rem 0 1.8rem; }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: .45rem;
+    font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--brand-deep); background: var(--brand-tint);
+    padding: .3rem .7rem; border-radius: 999px; border: 1px solid var(--good-line);
+  }
+  .hero h2 { margin: .9rem 0 .35rem; font-size: 1.85rem; font-weight: 800; letter-spacing: -.02em; }
+  .hero p { margin: 0 auto; max-width: 620px; color: var(--muted); font-size: .98rem; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow-md);
+  }
+  .console { padding: 1.4rem 1.4rem 1.2rem; }
+  .console-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .7rem; gap: 1rem; }
+  .console-head label { font-weight: 600; font-size: .95rem; }
+  .console-head .hint { font-size: .76rem; color: var(--muted-2); }
+
+  .input-wrap { position: relative; }
+  textarea#scenario {
+    width: 100%; min-height: 116px; padding: .9rem 1rem; resize: vertical;
+    border-radius: var(--radius-sm); border: 1.5px solid var(--line-strong);
+    background: var(--surface-2); color: var(--ink);
+    font-family: inherit; font-size: 1rem; line-height: 1.5;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  textarea#scenario::placeholder { color: var(--muted-2); }
+  textarea#scenario:focus {
+    outline: none; border-color: var(--brand);
+    background: #fff; box-shadow: 0 0 0 4px rgba(14,124,134,.13);
+  }
+
+  .toolbar { display: flex; align-items: center; gap: .6rem; margin-top: .9rem; flex-wrap: wrap; }
+  .btn {
+    appearance: none; cursor: pointer; font-family: inherit; font-weight: 600;
+    font-size: .92rem; padding: .62rem 1.15rem; border-radius: var(--radius-sm);
+    border: 1px solid transparent; transition: transform .08s, box-shadow .15s, background .15s, opacity .15s;
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    color: #fff; background: linear-gradient(145deg, var(--brand), var(--brand-deep));
+    box-shadow: 0 6px 16px rgba(14,124,134,.30);
+  }
+  .btn-primary:hover { box-shadow: 0 8px 22px rgba(14,124,134,.40); }
+  .btn-primary:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+  .btn-ghost { background: var(--surface); color: var(--ink-soft); border-color: var(--line-strong); }
+  .btn-ghost:hover { background: var(--surface-3); }
+  .spinner {
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.45); border-top-color: #fff;
+    animation: spin .7s linear infinite; display: none;
+  }
+  .btn-primary.loading .spinner { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .examples { margin-top: 1.1rem; }
+  .examples .lead { font-size: .76rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-2); margin-bottom: .5rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chip {
+    cursor: pointer; font-size: .82rem; font-weight: 500; color: var(--ink-soft);
+    background: var(--surface-2); border: 1px solid var(--line-strong);
+    padding: .4rem .8rem; border-radius: 999px; transition: all .14s;
+    display: inline-flex; align-items: center; gap: .4rem;
+  }
+  .chip:hover { border-color: var(--brand); color: var(--brand-deep); background: var(--brand-tint); }
+  .chip.neg:hover { border-color: var(--bad); color: var(--bad); background: var(--bad-bg); }
+  .chip .ic { font-size: .9rem; line-height: 1; }
+
+  /* ---------- Results ---------- */
+  #result { margin-top: 1.6rem; }
+  .result-enter { animation: rise .35s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .summary {
+    padding: 1.25rem 1.4rem; display: flex; flex-wrap: wrap; gap: 1.4rem 2.2rem;
+    align-items: flex-start; border-bottom: 1px solid var(--line);
+  }
+  .summary .field { min-width: 0; }
+  .summary .k { font-size: .7rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--muted-2); margin-bottom: .2rem; }
+  .summary .v { font-size: 1.02rem; font-weight: 700; color: var(--ink); }
+  .summary .v.mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: .92rem; }
+  .summary .spacer { flex: 1 1 auto; }
+
+  .conf {
+    display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 600;
+    padding: .35rem .7rem; border-radius: 999px; border: 1px solid;
+  }
+  .conf.high { color: var(--good); background: var(--good-bg); border-color: var(--good-line); }
+  .conf.medium { color: var(--warn); background: var(--warn-bg); border-color: var(--warn-line); }
+  .conf.low { color: var(--bad); background: var(--bad-bg); border-color: var(--bad-line); }
+  .tag {
+    display: inline-flex; align-items: center; gap: .35rem; font-size: .74rem; font-weight: 600;
+    padding: .28rem .6rem; border-radius: 999px; background: var(--surface-3);
+    color: var(--ink-soft); border: 1px solid var(--line-strong);
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .section { padding: 1.25rem 1.4rem; }
+  .section + .section { border-top: 1px solid var(--line); }
+  .section-title { font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 .9rem; display: flex; align-items: center; gap: .5rem; }
+  .section-title .count { font-family: "JetBrains Mono", monospace; color: var(--muted-2); font-weight: 500; }
+
+  .matched {
+    font-size: .92rem; color: var(--ink-soft); background: var(--surface-2);
+    border: 1px solid var(--line); border-left: 3px solid var(--brand);
+    padding: .7rem .9rem; border-radius: var(--radius-sm); margin: -.2rem 0 0;
+  }
+  .matched b { color: var(--ink); }
+
+  .alert {
+    display: flex; gap: .7rem; align-items: flex-start; padding: .8rem .95rem;
+    border-radius: var(--radius-sm); border: 1px solid; font-size: .9rem; margin-bottom: .7rem;
+  }
+  .alert .ai { font-size: 1.05rem; line-height: 1.3; flex: none; }
+  .alert.rad { background: var(--warn-bg); border-color: var(--warn-line); color: #8a5a10; }
+  .alert.contrast { background: #eaf3fd; border-color: #c4ddf6; color: #1d4f86; }
+  .alert.reject { background: var(--bad-bg); border-color: var(--bad-line); color: #9c2a2a; }
+  .alert.insuff { background: var(--warn-bg); border-color: var(--warn-line); color: #8a5a10; }
+
+  /* recommendation cards */
+  .rec {
+    display: grid; grid-template-columns: 64px 1fr; gap: 1rem;
+    padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--surface); margin-bottom: .8rem; position: relative; overflow: hidden;
+    transition: box-shadow .15s, transform .12s, border-color .15s;
+  }
+  .rec:hover { box-shadow: var(--shadow-md); border-color: var(--line-strong); }
+  .rec::before { content:""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .rec.green::before { background: var(--good); }
+  .rec.amber::before { background: var(--warn); }
+  .rec.red::before { background: var(--bad); }
+
+  .score-badge {
+    width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center;
+    flex: none; color: #fff; font-weight: 800; position: relative;
+  }
+  .score-badge .num { font-size: 1.45rem; line-height: 1; }
+  .score-badge .den { font-size: .68rem; opacity: .8; font-weight: 600; margin-top: 2px; }
+  .score-badge.green { background: linear-gradient(150deg, #1aa869, #128050); }
+  .score-badge.amber { background: linear-gradient(150deg, #d99523, #b4760f); }
+  .score-badge.red { background: linear-gradient(150deg, #e2574f, #c2342c); }
+
+  .rec-body { min-width: 0; }
+  .rec-top { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+  .rec-proc { font-size: 1.04rem; font-weight: 700; color: var(--ink); }
+  .cat {
+    font-size: .73rem; font-weight: 700; letter-spacing: .02em; padding: .15rem .55rem; border-radius: 6px;
+  }
+  .cat.green { color: var(--good); background: var(--good-bg); }
+  .cat.amber { color: var(--warn); background: var(--warn-bg); }
+  .cat.red { color: var(--bad); background: var(--bad-bg); }
+  .meter { height: 6px; border-radius: 999px; background: var(--surface-3); margin: .6rem 0 .55rem; overflow: hidden; }
+  .meter > i { display: block; height: 100%; border-radius: 999px; }
+  .meter > i.green { background: linear-gradient(90deg, #2bb673, #128050); }
+  .meter > i.amber { background: linear-gradient(90deg, #e9ad4a, #b4760f); }
+  .meter > i.red { background: linear-gradient(90deg, #ec6a63, #c2342c); }
+  .rationale { font-size: .92rem; color: var(--ink-soft); }
+  .rec-foot { margin-top: .65rem; display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+  .pill {
+    font-size: .73rem; font-weight: 600; padding: .25rem .6rem; border-radius: 999px;
+    background: var(--surface-3); color: var(--muted); border: 1px solid var(--line);
+    display: inline-flex; align-items: center; gap: .35rem;
+  }
+  .pill.cite { font-family: "JetBrains Mono", monospace; color: var(--brand-deep); background: var(--brand-tint); border-color: var(--good-line); }
+  .pill.rrl-high, .pill.rrl-very_high { color: #9c2a2a; background: var(--bad-bg); border-color: var(--bad-line); }
+  .pill.rrl-medium { color: #8a5a10; background: var(--warn-bg); border-color: var(--warn-line); }
+  .pill.contrast { color: #1d4f86; background: #eaf3fd; border-color: #c4ddf6; }
+
+  .manage { font-size: .92rem; color: var(--ink-soft); background: var(--surface-2); padding: .85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--line); }
+  .manage b { color: var(--ink); }
+
+  details.debug { margin-top: .2rem; }
+  details.debug summary { cursor: pointer; font-size: .82rem; font-weight: 600; color: var(--muted); list-style: none; display: inline-flex; align-items: center; gap: .4rem; user-select: none; }
+  details.debug summary::-webkit-details-marker { display: none; }
+  details.debug summary .chev { transition: transform .15s; }
+  details.debug[open] summary .chev { transform: rotate(90deg); }
+  table.ret { width: 100%; border-collapse: collapse; margin-top: .8rem; font-size: .82rem; }
+  table.ret th, table.ret td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--line); }
+  table.ret th { color: var(--muted-2); font-weight: 600; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; }
+  table.ret td { font-family: "JetBrains Mono", monospace; color: var(--ink-soft); }
+  table.ret tr:first-child td { color: var(--ink); font-weight: 500; }
+
+  /* skeleton loading */
+  .skel-card { padding: 1.25rem 1.4rem; }
+  .skel { background: linear-gradient(90deg, var(--surface-3) 25%, #e8eef6 37%, var(--surface-3) 63%); background-size: 400% 100%; animation: shimmer 1.3s infinite; border-radius: 8px; }
+  @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+  .skel.line { height: 14px; margin: .5rem 0; }
+  .skel.row { height: 64px; margin: .8rem 0; border-radius: 12px; }
+
+  footer { max-width: 1120px; margin: 0 auto; padding: 1.5rem; color: var(--muted-2); font-size: .82rem; display: flex; align-items: center; gap: .6rem; justify-content: center; text-align: center; flex-wrap: wrap; }
+  footer .sep { opacity: .5; }
+
+  @media (max-width: 720px) {
+    .hero h2 { font-size: 1.45rem; }
+    .brand-text p { display: none; }
+    .summary { gap: 1rem 1.4rem; }
+    .rec { grid-template-columns: 52px 1fr; gap: .8rem; }
+    .score-badge { width: 52px; height: 52px; }
+    .score-badge .num { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M6 3H4m2 0h2M14 3h-2m2 0h2"/>
+          <path d="M10 13v3a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="14" r="2"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 style="font-size:1.22rem; letter-spacing:.06em;">RADAR</h1>
+        <p>Radiology Appropriateness Decision &amp; Advisory Resource</p>
+      </div>
+    </div>
+    <div class="status-pill" id="status" title="Backend status">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">connecting…</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="eyebrow">🩺 Evidence-grounded imaging guidance</span>
+    <h2>What is the appropriate imaging?</h2>
+    <p>Describe a clinical scenario in plain language. The assistant retrieves the matching ACR
+       Appropriateness Criteria variant and returns ranked, cited imaging recommendations.</p>
+  </section>
+
+  <div class="card console">
+    <div class="console-head">
+      <label for="scenario">Clinical scenario</label>
+      <span class="hint">Free text · no PHI</span>
+    </div>
+    <div class="input-wrap">
+      <textarea id="scenario" placeholder="e.g. 42-year-old woman, sudden severe headache, worst of her life, no trauma. What initial imaging is appropriate?"></textarea>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-primary" id="submit">
+        <span class="spinner"></span>
+        <span class="label">Get recommendation</span>
+      </button>
+      <button class="btn btn-ghost" id="clear">Clear</button>
+      <span class="hint" style="margin-left:auto" id="kbinfo"></span>
+    </div>
+
+    <div class="examples">
+      <div class="lead">Try a sample case</div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+</main>
+
+<footer>
+  <span>⚕️ <b>Research work</b>.</span>
+  <span class="sep">•</span>
+  <span>Do not enter PHI.</span>
+  <span class="sep">•</span>
+  <span>Recommendations grounded in ACR Appropriateness Criteria®.</span>
+</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const el = (t, c) => { const n = document.createElement(t); if (c) n.className = c; return n; };
+const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const resultEl = $("#result");
+
+const EXAMPLES = [
+  { icon: "🧠", label: "Thunderclap headache", q: "42-year-old woman with sudden severe headache, peak intensity within seconds, described as the worst headache of her life. No prior trauma. What is the appropriate initial imaging?" },
+  { icon: "🤰", label: "Pregnant RLQ pain", q: "28-year-old pregnant woman, second trimester, with right lower quadrant pain, fever and leukocytosis. Suspected appendicitis." },
+  { icon: "🧒", label: "Pediatric RLQ pain", q: "8-year-old boy with right lower quadrant pain, fever and vomiting. Suspected appendicitis." },
+  { icon: "❤️", label: "Low-intermediate ACS", q: "55-year-old man with acute chest pain in the ED. Two negative troponins, non-diagnostic ECG, low-to-intermediate probability ACS. What rule-out imaging?" },
+  { icon: "🫁", label: "Suspected PE", q: "45-year-old woman with dyspnea and pleuritic chest pain. Intermediate Wells score, normal renal function. Suspected pulmonary embolism." },
+  { icon: "🦴", label: "LBP with red flags", q: "67-year-old man with low back pain and a history of prostate cancer, now with new onset bowel incontinence and saddle anesthesia." },
+  { icon: "✅", label: "Acute LBP, no red flags", q: "34-year-old man with three days of mild low back pain after lifting groceries. No fever, no neurologic symptoms, no cancer history." },
+  { icon: "🚫", label: "Off-topic (negative test)", q: "What is the capital of France?", neg: true },
+];
+
+const chipsEl = $("#chips");
+EXAMPLES.forEach(ex => {
+  const c = el("button", "chip" + (ex.neg ? " neg" : ""));
+  c.type = "button";
+  c.innerHTML = `<span class="ic">${ex.icon}</span>${esc(ex.label)}`;
+  c.addEventListener("click", () => { $("#scenario").value = ex.q; $("#scenario").focus(); });
+  chipsEl.appendChild(c);
+});
+
+async function loadHealth() {
+  try {
+    const r = await fetch("/health");
+    const j = await r.json();
+    const live = j.llm_mode === "claude";
+    $("#statusDot").className = "dot " + (live ? "live" : "stub");
+    $("#statusText").textContent = live ? "AI" : "AI · offline";
+    $("#kbinfo").textContent = `Knowledge base: ${j.kb_chunks} ACR variant chunks indexed`;
+  } catch {
+    $("#statusDot").className = "dot";
+    $("#statusText").textContent = "API not reachable";
+  }
+}
+loadHealth();
+
+$("#clear").addEventListener("click", () => { $("#scenario").value = ""; resultEl.innerHTML = ""; $("#scenario").focus(); });
+$("#submit").addEventListener("click", run);
+$("#scenario").addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key === "Enter") run(); });
+
+function band(score) {
+  const s = Number(score) || 0;
+  if (s >= 7) return "green";
+  if (s >= 4) return "amber";
+  return "red";
+}
+function catBand(cat) {
+  const c = (cat || "").toLowerCase();
+  if (c.includes("usually appropriate")) return "green";
+  if (c.includes("may be")) return "amber";
+  return "red";
+}
+
+function setLoading(on) {
+  const b = $("#submit");
+  b.disabled = on;
+  b.classList.toggle("loading", on);
+  b.querySelector(".label").textContent = on ? "Consulting…" : "Get recommendation";
+}
+
+function skeleton() {
+  resultEl.innerHTML = `
+    <div class="card result-enter">
+      <div class="skel-card">
+        <div class="skel line" style="width:30%"></div>
+        <div class="skel line" style="width:55%"></div>
+      </div>
+      <div class="section" style="border-top:1px solid var(--line)">
+        <div class="skel row"></div>
+        <div class="skel row"></div>
+        <div class="skel row" style="opacity:.6"></div>
+      </div>
+    </div>`;
+}
+
+function render(j) {
+  if (j.topic_match === "INSUFFICIENT_EVIDENCE") {
+    resultEl.innerHTML = `
+      <div class="card result-enter">
+        <div class="section">
+          <div class="alert insuff">
+            <span class="ai">⚠️</span>
+            <div><b>Insufficient evidence.</b> No ACR guideline was retrieved with sufficient confidence for this query.
+            Refine the clinical scenario, or this case may fall outside the loaded knowledge base
+            (5 seed topics: headache, low back pain, chest pain/ACS, RLQ pain/appendicitis, pulmonary embolism).</div>
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const recs = (j.recommendations || []).slice().sort((a,b) => (b.appropriateness||0)-(a.appropriateness||0));
+  const flags = j.safety_flags || {};
+  const conf = (j.confidence || "low").toLowerCase();
+
+  let safety = "";
+  if (flags.radiation_concerns) safety += `<div class="alert rad"><span class="ai">☢️</span><div><b>Radiation:</b> ${esc(flags.radiation_concerns)}</div></div>`;
+  if (flags.contrast_concerns) safety += `<div class="alert contrast"><span class="ai">💧</span><div><b>IV contrast:</b> ${esc(flags.contrast_concerns)}</div></div>`;
+  const rejected = (j.rejected_recommendations || []);
+  if (rejected.length) safety += `<div class="alert reject"><span class="ai">🛡️</span><div><b>${rejected.length} recommendation(s) stripped</b> by the citation guardrail — the model cited a chunk not in the retrieved context.</div></div>`;
+
+  const recCards = recs.map(r => {
+    const b = band(r.appropriateness);
+    const cb = catBand(r.category);
+    const w = Math.max(6, Math.min(100, (Number(r.appropriateness)||0)/9*100));
+    const rrl = r.rrl ? `<span class="pill rrl-${esc(r.rrl)}">☢ RRL: ${esc(r.rrl)}</span>` : "";
+    const contrast = r.uses_contrast ? `<span class="pill contrast">💧 IV contrast</span>` : "";
+    return `
+      <div class="rec ${b}">
+        <div class="score-badge ${b}"><span class="num">${esc(r.appropriateness)}</span><span class="den">/ 9</span></div>
+        <div class="rec-body">
+          <div class="rec-top">
+            <span class="rec-proc">${esc(r.procedure)}</span>
+            <span class="cat ${cb}">${esc(r.category)}</span>
+          </div>
+          <div class="meter"><i class="${b}" style="width:${w}%"></i></div>
+          ${r.rationale ? `<div class="rationale">${esc(r.rationale)}</div>` : ""}
+          <div class="rec-foot">
+            <span class="pill cite">🔗 ${esc(r.citation_id)}</span>
+            ${rrl}${contrast}
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+
+  const ret = j.retrieval || [];
+  const retRows = ret.map(x => `<tr>
+      <td>${esc(x.chunk_id)}</td><td>${esc(x.topic_id)}</td><td>${esc(x.variant_id ?? "—")}</td>
+      <td>${esc(x.score)}</td><td>${esc(x.normalized_score)}</td></tr>`).join("");
+
+  resultEl.innerHTML = `
+    <div class="card result-enter">
+      <div class="summary">
+        <div class="field"><div class="k">Topic match</div><div class="v">${esc(j.topic_match)}</div></div>
+        <div class="field"><div class="k">Variant</div><div class="v mono">${esc(j.variant_match ?? "—")}</div></div>
+        <div class="spacer"></div>
+        <div class="field" style="text-align:right">
+          <div class="k">Confidence</div>
+          <span class="conf ${conf}">${conf === "high" ? "▲" : conf === "medium" ? "■" : "▼"} ${esc(conf)}</span>
+        </div>
+        ${j.mode ? `<div class="field" style="text-align:right"><div class="k">Engine</div><span class="tag">${j.mode === "claude" ? "AI" : esc(j.mode)}</span></div>` : ""}
+      </div>
+
+      ${j.matched_scenario ? `<div class="section"><div class="matched"><b>Matched ACR scenario:</b> ${esc(j.matched_scenario)}</div></div>` : ""}
+
+      ${safety ? `<div class="section">${safety}</div>` : ""}
+
+      <div class="section">
+        <div class="section-title">Imaging recommendations <span class="count">${recs.length} ranked by appropriateness (1–9)</span></div>
+        ${recCards || `<div class="alert insuff"><span class="ai">ℹ️</span><div>No recommendations returned.</div></div>`}
+      </div>
+
+      ${j.what_would_change_management ? `<div class="section"><div class="manage"><b>What would change management:</b> ${esc(j.what_would_change_management)}</div></div>` : ""}
+
+      <div class="section">
+        <details class="debug">
+          <summary><span class="chev">▶</span> Retrieval debug (BM25 scores)</summary>
+          ${ret.length ? `<table class="ret">
+            <thead><tr><th>chunk_id</th><th>topic</th><th>variant</th><th>score</th><th>norm</th></tr></thead>
+            <tbody>${retRows}</tbody></table>` : `<div style="color:var(--muted-2);font-size:.85rem;margin-top:.6rem">No retrieval results.</div>`}
+        </details>
+      </div>
+    </div>`;
+}
+
+async function run() {
+  const scenario = $("#scenario").value.trim();
+  if (!scenario) { $("#scenario").focus(); return; }
+  setLoading(true);
+  skeleton();
+  try {
+    const r = await fetch("/consult", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ scenario }),
+    });
+    if (!r.ok) {
+      let detail = `HTTP ${r.status}`;
+      try { const e = await r.json(); if (e.detail) detail = e.detail; } catch {}
+      throw new Error(detail);
+    }
+    render(await r.json());
+  } catch (e) {
+    resultEl.innerHTML = `<div class="card result-enter"><div class="section"><div class="alert reject"><span class="ai">⛔</span><div><b>Request failed.</b> ${esc(e.message)}</div></div></div></div>`;
+  } finally {
+    setLoading(false);
+  }
+}
+</script>
+</body>
+</html>

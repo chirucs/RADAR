@@ -1,0 +1,195 @@
+{
+  "_meta": {
+    "name": "Sample ACR-AC Knowledge Base",
+    "description": "Synthetic, illustrative seed data structured to mirror the ACR Appropriateness Criteria. NOT licensed ACR content. For research/development use only.",
+    "schema_version": "1.0",
+    "rrl_legend": {
+      "O": "None (no ionizing radiation)",
+      "low": "Minimal (<0.1 mSv, e.g. CXR)",
+      "medium": "Low (0.1-1 mSv)",
+      "high": "Moderate (1-10 mSv, e.g. head CT, abdominal CT)",
+      "very_high": "High (10-30 mSv, e.g. multiphase CT)"
+    },
+    "appropriateness_legend": {
+      "1-3": "Usually Not Appropriate",
+      "4-6": "May Be Appropriate",
+      "7-9": "Usually Appropriate"
+    }
+  },
+  "topics": [
+    {
+      "topic_id": "acr-headache",
+      "topic_name": "Headache",
+      "version": "Illustrative 2024",
+      "citation": "ACR-AC-Headache-2024 [SYNTHETIC]",
+      "keywords": ["headache", "migraine", "thunderclap", "worst of life", "cephalgia"],
+      "variants": [
+        {
+          "variant_id": "acr-headache-v1",
+          "scenario": "Sudden severe headache, peak intensity within seconds to minutes (\"thunderclap\" or \"worst headache of life\"). Initial imaging.",
+          "scenario_keywords": ["sudden", "severe", "thunderclap", "worst", "acute onset"],
+          "procedures": [
+            {"procedure": "CT head without IV contrast", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": false, "comment": "First-line for evaluation of acute subarachnoid hemorrhage."},
+            {"procedure": "CTA head and neck with IV contrast", "appropriateness": 8, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": true, "comment": "If aneurysm or vascular cause suspected, often performed alongside non-contrast CT."},
+            {"procedure": "MRI head without and with IV contrast", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": true, "comment": "Useful when CT non-diagnostic and clinical concern persists."},
+            {"procedure": "MRA head without IV contrast", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Alternative vascular imaging when CTA contraindicated."},
+            {"procedure": "Catheter angiography cerebral", "appropriateness": 4, "category": "May Be Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Reserved for cases requiring intervention or when noninvasive imaging is equivocal."},
+            {"procedure": "Radiography skull", "appropriateness": 1, "category": "Usually Not Appropriate", "rrl": "low", "uses_contrast": false, "comment": "Not indicated."}
+          ]
+        },
+        {
+          "variant_id": "acr-headache-v2",
+          "scenario": "Chronic headache, no red flags, no neurologic deficit. Initial imaging.",
+          "scenario_keywords": ["chronic", "primary headache", "no red flags", "tension", "migraine without aura"],
+          "procedures": [
+            {"procedure": "MRI head without IV contrast", "appropriateness": 3, "category": "Usually Not Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Generally not indicated absent red flags; consider if pattern changes."},
+            {"procedure": "CT head without IV contrast", "appropriateness": 2, "category": "Usually Not Appropriate", "rrl": "high", "uses_contrast": false, "comment": "Not indicated for primary chronic headache."},
+            {"procedure": "No imaging", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Clinical management appropriate; imaging not indicated without red flags."}
+          ]
+        },
+        {
+          "variant_id": "acr-headache-v3",
+          "scenario": "New headache with focal neurologic deficit, papilledema, or immunocompromised state.",
+          "scenario_keywords": ["focal deficit", "papilledema", "immunocompromised", "red flag", "neurologic"],
+          "procedures": [
+            {"procedure": "MRI head without and with IV contrast", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": true, "comment": "Preferred for evaluation of mass, infection, demyelination."},
+            {"procedure": "CT head without IV contrast", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": false, "comment": "Useful when MRI unavailable or for rapid screening."},
+            {"procedure": "CT head with IV contrast", "appropriateness": 5, "category": "May Be Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Reasonable alternative when MRI contraindicated."}
+          ]
+        }
+      ]
+    },
+    {
+      "topic_id": "acr-low-back-pain",
+      "topic_name": "Low Back Pain",
+      "version": "Illustrative 2024",
+      "citation": "ACR-AC-LBP-2024 [SYNTHETIC]",
+      "keywords": ["low back pain", "lumbago", "lumbar", "sciatica", "back"],
+      "variants": [
+        {
+          "variant_id": "acr-lbp-v1",
+          "scenario": "Acute low back pain, no red flags, less than 6 weeks duration, no prior trauma.",
+          "scenario_keywords": ["acute", "uncomplicated", "less than 6 weeks", "mild", "lifting", "mechanical", "musculoskeletal", "conservative management"],
+          "procedures": [
+            {"procedure": "No imaging", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Conservative management is first-line; imaging not indicated."},
+            {"procedure": "Radiography lumbar spine", "appropriateness": 2, "category": "Usually Not Appropriate", "rrl": "medium", "uses_contrast": false, "comment": "Not indicated in absence of red flags."},
+            {"procedure": "MRI lumbar spine without IV contrast", "appropriateness": 2, "category": "Usually Not Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Reserve for persistent symptoms or red flags."}
+          ]
+        },
+        {
+          "variant_id": "acr-lbp-v2",
+          "scenario": "Low back pain with red flags suggesting cauda equina, infection, or malignancy (e.g. saddle anesthesia, fever, unexplained weight loss, history of cancer).",
+          "scenario_keywords": ["red flag", "cauda equina", "saddle anesthesia", "fever", "weight loss", "cancer history"],
+          "procedures": [
+            {"procedure": "MRI lumbar spine without and with IV contrast", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": true, "comment": "Preferred for infection, malignancy, cauda equina evaluation."},
+            {"procedure": "MRI lumbar spine without IV contrast", "appropriateness": 8, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Sufficient if contrast contraindicated."},
+            {"procedure": "CT lumbar spine without IV contrast", "appropriateness": 5, "category": "May Be Appropriate", "rrl": "high", "uses_contrast": false, "comment": "Alternative if MRI contraindicated."},
+            {"procedure": "Radiography lumbar spine", "appropriateness": 4, "category": "May Be Appropriate", "rrl": "medium", "uses_contrast": false, "comment": "Limited role; may screen for fracture or alignment."}
+          ]
+        }
+      ]
+    },
+    {
+      "topic_id": "acr-acute-chest-pain",
+      "topic_name": "Acute Chest Pain — Suspected ACS",
+      "version": "Illustrative 2024",
+      "citation": "ACR-AC-ChestPain-ACS-2024 [SYNTHETIC]",
+      "keywords": ["chest pain", "ACS", "acute coronary syndrome", "angina", "MI"],
+      "variants": [
+        {
+          "variant_id": "acr-acs-v1",
+          "scenario": "Acute chest pain, low to intermediate probability of acute coronary syndrome, normal or non-diagnostic ECG and negative initial troponin.",
+          "scenario_keywords": ["low probability", "intermediate probability", "negative troponin", "non-diagnostic ECG"],
+          "procedures": [
+            {"procedure": "CTA coronary arteries with IV contrast", "appropriateness": 8, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": true, "comment": "High negative predictive value; appropriate for low-intermediate risk rule-out."},
+            {"procedure": "Stress echocardiography", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Functional alternative; no ionizing radiation."},
+            {"procedure": "SPECT MPI rest and stress", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": false, "comment": "Established functional imaging."},
+            {"procedure": "Stress cardiac MRI", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": true, "comment": "Useful when other modalities equivocal."},
+            {"procedure": "Radiography chest", "appropriateness": 5, "category": "May Be Appropriate", "rrl": "low", "uses_contrast": false, "comment": "Helpful to exclude alternative causes of chest pain."}
+          ]
+        },
+        {
+          "variant_id": "acr-acs-v2",
+          "scenario": "Acute chest pain, high clinical probability of ACS or evolving MI on ECG.",
+          "scenario_keywords": ["high probability", "STEMI", "evolving MI", "ECG changes"],
+          "procedures": [
+            {"procedure": "Catheter coronary angiography", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Definitive evaluation; allows immediate intervention."},
+            {"procedure": "CTA coronary arteries with IV contrast", "appropriateness": 3, "category": "Usually Not Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Not appropriate when invasive angiography indicated."}
+          ]
+        }
+      ]
+    },
+    {
+      "topic_id": "acr-rlq-pain",
+      "topic_name": "Right Lower Quadrant Pain — Suspected Appendicitis",
+      "version": "Illustrative 2024",
+      "citation": "ACR-AC-RLQ-Appendicitis-2024 [SYNTHETIC]",
+      "keywords": ["RLQ pain", "right lower quadrant", "appendicitis", "abdominal pain"],
+      "variants": [
+        {
+          "variant_id": "acr-rlq-v1",
+          "scenario": "Adult, suspected acute appendicitis. Initial imaging.",
+          "scenario_keywords": ["adult", "non-pregnant"],
+          "procedures": [
+            {"procedure": "CT abdomen and pelvis with IV contrast", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": true, "comment": "First-line in adults; high sensitivity and specificity."},
+            {"procedure": "US abdomen RLQ", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Operator-dependent; preferred if radiation avoidance is a priority."},
+            {"procedure": "MRI abdomen and pelvis without and with IV contrast", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": true, "comment": "Useful when CT contraindicated."},
+            {"procedure": "Radiography abdomen", "appropriateness": 2, "category": "Usually Not Appropriate", "rrl": "medium", "uses_contrast": false, "comment": "Low yield for appendicitis."}
+          ]
+        },
+        {
+          "variant_id": "acr-rlq-v2",
+          "scenario": "Pregnant patient, suspected appendicitis.",
+          "scenario_keywords": ["pregnant", "pregnancy", "gravid", "trimester", "antenatal", "obstetric"],
+          "procedures": [
+            {"procedure": "US abdomen RLQ", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "First-line in pregnancy; no ionizing radiation."},
+            {"procedure": "MRI abdomen and pelvis without IV contrast", "appropriateness": 8, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Strong second-line when US non-diagnostic."},
+            {"procedure": "CT abdomen and pelvis with IV contrast", "appropriateness": 4, "category": "May Be Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Reserved for diagnostic uncertainty after US/MRI."}
+          ]
+        },
+        {
+          "variant_id": "acr-rlq-v3",
+          "scenario": "Pediatric patient, suspected appendicitis.",
+          "scenario_keywords": ["pediatric", "child", "children", "infant", "toddler", "adolescent", "boy", "girl", "schoolchild", "youngster"],
+          "procedures": [
+            {"procedure": "US abdomen RLQ", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "First-line in children to avoid radiation."},
+            {"procedure": "MRI abdomen and pelvis without IV contrast", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Second-line when US non-diagnostic."},
+            {"procedure": "CT abdomen and pelvis with IV contrast", "appropriateness": 5, "category": "May Be Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Used selectively given radiation considerations."}
+          ]
+        }
+      ]
+    },
+    {
+      "topic_id": "acr-suspected-pe",
+      "topic_name": "Suspected Pulmonary Embolism",
+      "version": "Illustrative 2024",
+      "citation": "ACR-AC-PE-2024 [SYNTHETIC]",
+      "keywords": ["pulmonary embolism", "PE", "DVT", "dyspnea", "pleuritic chest pain"],
+      "variants": [
+        {
+          "variant_id": "acr-pe-v1",
+          "scenario": "Suspected PE, intermediate or high pretest probability, normal renal function.",
+          "scenario_keywords": ["Wells score", "intermediate probability", "high probability", "normal renal function", "non-pregnant"],
+          "procedures": [
+            {"procedure": "CTA chest with IV contrast (PE protocol)", "appropriateness": 9, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Test of choice; sensitive and specific for PE."},
+            {"procedure": "V/Q scan lung", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "medium", "uses_contrast": false, "comment": "Alternative when iodinated contrast contraindicated."},
+            {"procedure": "MRA pulmonary with IV contrast", "appropriateness": 5, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": true, "comment": "Limited availability and expertise required."},
+            {"procedure": "Radiography chest", "appropriateness": 5, "category": "May Be Appropriate", "rrl": "low", "uses_contrast": false, "comment": "Often performed for alternative diagnoses; non-diagnostic for PE."},
+            {"procedure": "US bilateral lower extremity venous", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Indirect evidence via DVT; may be used when CTA contraindicated."}
+          ]
+        },
+        {
+          "variant_id": "acr-pe-v2",
+          "scenario": "Suspected PE in pregnancy.",
+          "scenario_keywords": ["pregnancy", "pregnant", "gravid", "trimester", "antenatal", "obstetric"],
+          "procedures": [
+            {"procedure": "US bilateral lower extremity venous", "appropriateness": 8, "category": "Usually Appropriate", "rrl": "O", "uses_contrast": false, "comment": "Reasonable initial step if DVT clinically suspected."},
+            {"procedure": "CTA chest with IV contrast (PE protocol)", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "high", "uses_contrast": true, "comment": "Diagnostic; fetal radiation low. Use when clinical suspicion warrants."},
+            {"procedure": "V/Q scan lung", "appropriateness": 7, "category": "Usually Appropriate", "rrl": "medium", "uses_contrast": false, "comment": "Alternative; comparable diagnostic performance."},
+            {"procedure": "Radiography chest", "appropriateness": 6, "category": "May Be Appropriate", "rrl": "low", "uses_contrast": false, "comment": "Helps select between V/Q and CTA."}
+          ]
+        }
+      ]
+    }
+  ]
+}
